@@ -1,0 +1,457 @@
+{
+  "gaps": [
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 1,
+      "col": 1,
+      "category": "InnerAttr",
+      "rust_construct": "InnerAttr",
+      "snippet": "# ! [forbid (unsafe_code)]",
+      "reason": "crate/file-level inner attributes (#![...]) are not transpiled (no nodule-header equivalent for these Rust-specific directives)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 97,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use mycelium_core :: { GuaranteeStrength , Repr , Value } ;",
+      "reason": "`use mycelium_core::GuaranteeStrength` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::Repr` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::Value` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 98,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use serde :: { Deserialize , Serialize } ;",
+      "reason": "`use serde::Deserialize` — `serde` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use serde::Serialize` — `serde` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 102,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use mycelium_core :: { Payload , Trit } ;",
+      "reason": "`use mycelium_core::Payload` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::Trit` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 106,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" A rendered text string (the output of a human projection).\"] # [doc = \"\"] # [doc = \" A thin `String` wrapper so the type surface makes the projection explicit.\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Text (pub String) ;",
+      "reason": "struct `Text` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Text"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 106,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" A rendered text string (the output of a human projection).\"] # [doc = \"\"] # [doc = \" A thin `String` wrapper so the type surface makes the projection explicit.\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Text (pub String) ;",
+      "reason": "struct `Text` derive(...) names Eq not in the DN-128 standard-derive set this leaf builds (Debug/Default/Clone/Copy/PartialEq/PartialOrd/Hash all recognized; bare Eq/Ord are deliberately NOT recognized — see emit/derives/mod.rs::TABLE's doc for why) — dropped, no confirmed Mycelium surface",
+      "item_name": "Text"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 112,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "impl Text { # [doc = \" Borrow the inner string.\"] # [must_use] pub fn as_str (& self) -> & str { & self . 0 } }",
+      "reason": "dropped non-doc attribute(s) on method `as_str`: # [must_use]",
+      "item_name": "impl Text"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 120,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl core :: fmt :: Display for Text { fn fmt (& self , f : & mut core :: fmt :: Formatter < '_ >) -> core :: fmt :: Result { f . write_str (& self . 0) } }",
+      "reason": "trait-impl of non-prelude trait `Display` — no ambient trait definition and synthetic trait emission is refused (DN-34 §8.8 / DN-122 MVP); gapped the whole impl so the residual cannot file-poison myc-check (G2; express gap-close 2026-07-16)",
+      "item_name": "Text"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 128,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" A budget for `display_bounded`: the maximum number of *elements* (bits, trits, scalars,\"] # [doc = \" or hypervector components) to render before eliding.\"] # [doc = \"\"] # [doc = \" The budget is specified in element units so the contract is paradigm-uniform. A budget of\"] # [doc = \" 0 is allowed and produces an immediately-elided rendering (all content elided).\"] # [doc = \"\"] # [doc = \" Declared as the `alloc(budget)` effect in the C6 guarantee for `display_bounded` (spec §4).\"] # [derive (Debug , Clone , Copy , PartialEq , Eq , PartialOrd , Ord)] pub struct Budget (pub usize) ;",
+      "reason": "struct `Budget` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Budget"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 128,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" A budget for `display_bounded`: the maximum number of *elements* (bits, trits, scalars,\"] # [doc = \" or hypervector components) to render before eliding.\"] # [doc = \"\"] # [doc = \" The budget is specified in element units so the contract is paradigm-uniform. A budget of\"] # [doc = \" 0 is allowed and produces an immediately-elided rendering (all content elided).\"] # [doc = \"\"] # [doc = \" Declared as the `alloc(budget)` effect in the C6 guarantee for `display_bounded` (spec §4).\"] # [derive (Debug , Clone , Copy , PartialEq , Eq , PartialOrd , Ord)] pub struct Budget (pub usize) ;",
+      "reason": "struct `Budget` derive(Copy) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Budget"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 128,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" A budget for `display_bounded`: the maximum number of *elements* (bits, trits, scalars,\"] # [doc = \" or hypervector components) to render before eliding.\"] # [doc = \"\"] # [doc = \" The budget is specified in element units so the contract is paradigm-uniform. A budget of\"] # [doc = \" 0 is allowed and produces an immediately-elided rendering (all content elided).\"] # [doc = \"\"] # [doc = \" Declared as the `alloc(budget)` effect in the C6 guarantee for `display_bounded` (spec §4).\"] # [derive (Debug , Clone , Copy , PartialEq , Eq , PartialOrd , Ord)] pub struct Budget (pub usize) ;",
+      "reason": "struct `Budget` derive(...) names Eq, Ord not in the DN-128 standard-derive set this leaf builds (Debug/Default/Clone/Copy/PartialEq/PartialOrd/Hash all recognized; bare Eq/Ord are deliberately NOT recognized — see emit/derives/mod.rs::TABLE's doc for why) — dropped, no confirmed Mycelium surface",
+      "item_name": "Budget"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 138,
+      "col": 1,
+      "category": "NamedFieldDrop",
+      "rust_construct": "NamedFieldDrop",
+      "snippet": "# [doc = \" Whether a [`Rendering`] is complete or whether some content was elided.\"] # [doc = \"\"] # [doc = \" `Elided` is the never-silent guard made type-level (spec §3; C1/G2): a bounded display that\"] # [doc = \" drops data **cannot** be constructed without the `omitted`/`marker` fields, so a silent\"] # [doc = \" truncation is unrepresentable rather than merely discouraged. This is the EXPLAIN-able\"] # [doc = \" artifact for `display_bounded` (C3).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub enum Truncation { # [doc = \" The rendering is faithful and complete — nothing was elided.\"] Complete , # [doc = \" Some content was elided. The `omitted` count and the `marker` string are the\"] # [doc = \" reified record of *what* was dropped and *why* (C3 — inspectable EXPLAIN artifact).\"] Elided { # [doc = \" Number of elements omitted (always >= 1).\"] omitted : usize , # [doc = \" The elision marker embedded in the rendered text (e.g. `\\\"...<N omitted>\\\"`).\"] # [doc = \" This string is part of the rendered text, not a separate annotation, so it cannot\"] # [doc = \" be confused with real content.\"] marker : String , } , }",
+      "reason": "enum `Truncation` variant `Elided` named field(s) `omitted, marker` emitted positionally as `Elided(Binary{64}, Bytes)` — Mycelium's `constructor` is positional-only (no record surface); product structure preserved, field names dropped",
+      "item_name": "Truncation"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 138,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Whether a [`Rendering`] is complete or whether some content was elided.\"] # [doc = \"\"] # [doc = \" `Elided` is the never-silent guard made type-level (spec §3; C1/G2): a bounded display that\"] # [doc = \" drops data **cannot** be constructed without the `omitted`/`marker` fields, so a silent\"] # [doc = \" truncation is unrepresentable rather than merely discouraged. This is the EXPLAIN-able\"] # [doc = \" artifact for `display_bounded` (C3).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub enum Truncation { # [doc = \" The rendering is faithful and complete — nothing was elided.\"] Complete , # [doc = \" Some content was elided. The `omitted` count and the `marker` string are the\"] # [doc = \" reified record of *what* was dropped and *why* (C3 — inspectable EXPLAIN artifact).\"] Elided { # [doc = \" Number of elements omitted (always >= 1).\"] omitted : usize , # [doc = \" The elision marker embedded in the rendered text (e.g. `\\\"...<N omitted>\\\"`).\"] # [doc = \" This string is part of the rendered text, not a separate annotation, so it cannot\"] # [doc = \" be confused with real content.\"] marker : String , } , }",
+      "reason": "enum `Truncation` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Truncation"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 138,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Whether a [`Rendering`] is complete or whether some content was elided.\"] # [doc = \"\"] # [doc = \" `Elided` is the never-silent guard made type-level (spec §3; C1/G2): a bounded display that\"] # [doc = \" drops data **cannot** be constructed without the `omitted`/`marker` fields, so a silent\"] # [doc = \" truncation is unrepresentable rather than merely discouraged. This is the EXPLAIN-able\"] # [doc = \" artifact for `display_bounded` (C3).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub enum Truncation { # [doc = \" The rendering is faithful and complete — nothing was elided.\"] Complete , # [doc = \" Some content was elided. The `omitted` count and the `marker` string are the\"] # [doc = \" reified record of *what* was dropped and *why* (C3 — inspectable EXPLAIN artifact).\"] Elided { # [doc = \" Number of elements omitted (always >= 1).\"] omitted : usize , # [doc = \" The elision marker embedded in the rendered text (e.g. `\\\"...<N omitted>\\\"`).\"] # [doc = \" This string is part of the rendered text, not a separate annotation, so it cannot\"] # [doc = \" be confused with real content.\"] marker : String , } , }",
+      "reason": "enum `Truncation` derive(Eq): covered by co-occurring PartialEq → `fn eq_Truncation` (product-row collision policy; DN-128 / ONESHOT C2) — not a second emission",
+      "item_name": "Truncation"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 160,
+      "col": 1,
+      "category": "NamedFieldDrop",
+      "rust_construct": "NamedFieldDrop",
+      "snippet": "# [doc = \" The result of `display_bounded`: a rendered text paired with its truncation record.\"] # [doc = \"\"] # [doc = \" When `truncation` is `Truncation::Elided`, the `text` field already contains the `marker`\"] # [doc = \" verbatim so the output is self-describing without having to inspect the `Truncation` variant.\"] # [doc = \" The `Truncation` variant is still the machine-readable EXPLAIN artifact (C3).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Rendering { # [doc = \" The bounded human-readable text (may contain the elision marker).\"] pub text : Text , # [doc = \" Whether and what was elided (the EXPLAIN-able artifact; C3).\"] pub truncation : Truncation , }",
+      "reason": "struct `Rendering` named field(s) `text, truncation` emitted positionally as `Rendering(Text, Truncation)` — Mycelium's `constructor` is positional-only (no record surface); product structure preserved, field names dropped (matches `lib/std/*.myc` hand-ports)",
+      "item_name": "Rendering"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 160,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The result of `display_bounded`: a rendered text paired with its truncation record.\"] # [doc = \"\"] # [doc = \" When `truncation` is `Truncation::Elided`, the `text` field already contains the `marker`\"] # [doc = \" verbatim so the output is self-describing without having to inspect the `Truncation` variant.\"] # [doc = \" The `Truncation` variant is still the machine-readable EXPLAIN artifact (C3).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Rendering { # [doc = \" The bounded human-readable text (may contain the elision marker).\"] pub text : Text , # [doc = \" Whether and what was elided (the EXPLAIN-able artifact; C3).\"] pub truncation : Truncation , }",
+      "reason": "struct `Rendering` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Rendering"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 160,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" The result of `display_bounded`: a rendered text paired with its truncation record.\"] # [doc = \"\"] # [doc = \" When `truncation` is `Truncation::Elided`, the `text` field already contains the `marker`\"] # [doc = \" verbatim so the output is self-describing without having to inspect the `Truncation` variant.\"] # [doc = \" The `Truncation` variant is still the machine-readable EXPLAIN artifact (C3).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Rendering { # [doc = \" The bounded human-readable text (may contain the elision marker).\"] pub text : Text , # [doc = \" Whether and what was elided (the EXPLAIN-able artifact; C3).\"] pub truncation : Truncation , }",
+      "reason": "struct `Rendering` derive(...) names Eq not in the DN-128 standard-derive set this leaf builds (Debug/Default/Clone/Copy/PartialEq/PartialOrd/Hash all recognized; bare Eq/Ord are deliberately NOT recognized — see emit/derives/mod.rs::TABLE's doc for why) — dropped, no confirmed Mycelium surface",
+      "item_name": "Rendering"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 175,
+      "col": 1,
+      "category": "Struct",
+      "rust_construct": "Struct",
+      "snippet": "# [doc = \" The machine-projection JSON view of a [`Value`] (spec §3 / G11).\"] # [doc = \"\"] # [doc = \" Produced by [`to_json`]; round-trips via [`from_json`]. This is **not** the canonical\"] # [doc = \" transport codec (that is `io`/`serialize`, M-514) — it is the *display* machine projection.\"] # [doc = \"\"] # [doc = \" # Delegation (M-514) — wired\"] # [doc = \" `to_json`/`from_json` delegate the canonical projection to `mycelium-std-io` (the ratified\"] # [doc = \" fmt→io seam; spec §7-Q1, README §5 — \\\"one canonical JSON, two entry points\\\"). This `Json` is\"] # [doc = \" the thin display wrapper over that one canonical JSON; the round-trip guarantee\"] # [doc = \" (`from_json(to_json(v)).content_hash() == v.content_hash()`) holds through the delegation.\"] # [derive (Debug , Clone , PartialEq , Serialize , Deserialize)] pub struct Json (pub serde_json :: Value) ;",
+      "reason": "struct `Json` has a field type with no confirmed mapping (qualified type path `serde_json :: Value` — collapsing to its last segment would risk colliding with an unrelated same-named local type (e.g. `std::cmp::Ordering` vs a local `Ordering`); left an explicit gap rather than guessed (VR-5))",
+      "item_name": "Json"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 188,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl Json { # [doc = \" Borrow the inner `serde_json::Value` for inspection.\"] # [must_use] pub fn inner (& self) -> & serde_json :: Value { & self . 0 } }",
+      "reason": "no member of this impl block could be transpiled (1 sub-issue(s)): impl method `inner` signature: qualified type path `serde_json :: Value` — collapsing to its last segment would risk colliding with an unrelated same-named local type (e.g. `std::cmp::Ordering` vs a local `Ordering`); left an explicit gap rather than guessed (VR-5)",
+      "item_name": "Json"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 196,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Errors the `from_json` machine projection can raise.\"] # [doc = \"\"] # [doc = \" Never-silent (C1): a malformed, unknown-tag, or out-of-domain input is an explicit `Err`,\"] # [doc = \" never a coercion or a sentinel.\"] # [derive (Debug , Clone , PartialEq , Eq)] pub enum FromJsonError { # [doc = \" The JSON structure does not match the expected `Value` wire schema (wrong shape, missing\"] # [doc = \" field, wrong type for a field). Carries a human-readable description of the span / cause.\"] Malformed (String) , # [doc = \" The `repr.kind` tag is not one of `Binary|Ternary|Dense|VSA`. Carries the unknown name.\"] UnknownTag (String) , # [doc = \" A field value is out of its stated domain (e.g. `width: 0`, negative dim, empty model).\"] OutOfDomain (String) , }",
+      "reason": "enum `FromJsonError` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "FromJsonError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 196,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Errors the `from_json` machine projection can raise.\"] # [doc = \"\"] # [doc = \" Never-silent (C1): a malformed, unknown-tag, or out-of-domain input is an explicit `Err`,\"] # [doc = \" never a coercion or a sentinel.\"] # [derive (Debug , Clone , PartialEq , Eq)] pub enum FromJsonError { # [doc = \" The JSON structure does not match the expected `Value` wire schema (wrong shape, missing\"] # [doc = \" field, wrong type for a field). Carries a human-readable description of the span / cause.\"] Malformed (String) , # [doc = \" The `repr.kind` tag is not one of `Binary|Ternary|Dense|VSA`. Carries the unknown name.\"] UnknownTag (String) , # [doc = \" A field value is out of its stated domain (e.g. `width: 0`, negative dim, empty model).\"] OutOfDomain (String) , }",
+      "reason": "enum `FromJsonError` derive(Eq): covered by co-occurring PartialEq → `fn eq_FromJsonError` (product-row collision policy; DN-128 / ONESHOT C2) — not a second emission",
+      "item_name": "FromJsonError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 211,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl core :: fmt :: Display for FromJsonError { fn fmt (& self , f : & mut core :: fmt :: Formatter < '_ >) -> core :: fmt :: Result { match self { FromJsonError :: Malformed (s) => write ! (f , \"malformed JSON value: {s}\") , FromJsonError :: UnknownTag (t) => write ! (f , \"unknown repr.kind tag: {t:?}\") , FromJsonError :: OutOfDomain (s) => write ! (f , \"field out of domain: {s}\") , } } }",
+      "reason": "trait-impl of non-prelude trait `Display` — no ambient trait definition and synthetic trait emission is refused (DN-34 §8.8 / DN-122 MVP); gapped the whole impl so the residual cannot file-poison myc-check (G2; express gap-close 2026-07-16)",
+      "item_name": "FromJsonError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 221,
+      "col": 1,
+      "category": "MacroInvocation",
+      "rust_construct": "MacroInvocation",
+      "snippet": "mycelium_std_core :: impl_std_error ! (FromJsonError) ;",
+      "reason": "item-position macro invocation — no macro system in this grammar",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 223,
+      "col": 1,
+      "category": "NamedFieldDrop",
+      "rust_construct": "NamedFieldDrop",
+      "snippet": "# [doc = \" Error the `to_json` machine projection can raise.\"] # [doc = \"\"] # [doc = \" Never-silent (C1): a `Value` that has no faithful JSON form is an explicit `Err`, never a\"] # [doc = \" lossy coercion.\"] # [derive (Debug , Clone , PartialEq , Eq)] pub enum ToJsonError { # [doc = \" A non-finite `f64` (`NaN`/`±∞`) in a `Dense`/`Vsa` payload has no JSON representation.\"] # [doc = \"\"] # [doc = \" `serde_json` would silently emit `null` (collapsing `NaN`/`±∞` together and breaking the\"] # [doc = \" round-trip), so it is refused (C1/G2). Carries the payload index of the first offender.\"] NonFinite { # [doc = \" Index of the first non-finite scalar in the payload.\"] index : usize , } , }",
+      "reason": "enum `ToJsonError` variant `NonFinite` named field(s) `index` emitted positionally as `NonFinite(Binary{64})` — Mycelium's `constructor` is positional-only (no record surface); product structure preserved, field names dropped",
+      "item_name": "ToJsonError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 223,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Error the `to_json` machine projection can raise.\"] # [doc = \"\"] # [doc = \" Never-silent (C1): a `Value` that has no faithful JSON form is an explicit `Err`, never a\"] # [doc = \" lossy coercion.\"] # [derive (Debug , Clone , PartialEq , Eq)] pub enum ToJsonError { # [doc = \" A non-finite `f64` (`NaN`/`±∞`) in a `Dense`/`Vsa` payload has no JSON representation.\"] # [doc = \"\"] # [doc = \" `serde_json` would silently emit `null` (collapsing `NaN`/`±∞` together and breaking the\"] # [doc = \" round-trip), so it is refused (C1/G2). Carries the payload index of the first offender.\"] NonFinite { # [doc = \" Index of the first non-finite scalar in the payload.\"] index : usize , } , }",
+      "reason": "enum `ToJsonError` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "ToJsonError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 223,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Error the `to_json` machine projection can raise.\"] # [doc = \"\"] # [doc = \" Never-silent (C1): a `Value` that has no faithful JSON form is an explicit `Err`, never a\"] # [doc = \" lossy coercion.\"] # [derive (Debug , Clone , PartialEq , Eq)] pub enum ToJsonError { # [doc = \" A non-finite `f64` (`NaN`/`±∞`) in a `Dense`/`Vsa` payload has no JSON representation.\"] # [doc = \"\"] # [doc = \" `serde_json` would silently emit `null` (collapsing `NaN`/`±∞` together and breaking the\"] # [doc = \" round-trip), so it is refused (C1/G2). Carries the payload index of the first offender.\"] NonFinite { # [doc = \" Index of the first non-finite scalar in the payload.\"] index : usize , } , }",
+      "reason": "enum `ToJsonError` derive(Eq): covered by co-occurring PartialEq → `fn eq_ToJsonError` (product-row collision policy; DN-128 / ONESHOT C2) — not a second emission",
+      "item_name": "ToJsonError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 239,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl core :: fmt :: Display for ToJsonError { fn fmt (& self , f : & mut core :: fmt :: Formatter < '_ >) -> core :: fmt :: Result { match self { ToJsonError :: NonFinite { index } => write ! (f , \"non-finite f64 at payload index {index} has no JSON form \\\n                 (refused — never a silent null)\") , } } }",
+      "reason": "trait-impl of non-prelude trait `Display` — no ambient trait definition and synthetic trait emission is refused (DN-34 §8.8 / DN-122 MVP); gapped the whole impl so the residual cannot file-poison myc-check (G2; express gap-close 2026-07-16)",
+      "item_name": "ToJsonError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 251,
+      "col": 1,
+      "category": "MacroInvocation",
+      "rust_construct": "MacroInvocation",
+      "snippet": "mycelium_std_core :: impl_std_error ! (ToJsonError) ;",
+      "reason": "item-position macro invocation — no macro system in this grammar",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 253,
+      "col": 1,
+      "category": "MultiStmtBody",
+      "rust_construct": "MultiStmtBody",
+      "snippet": "# [doc = \" The payload index of the first non-finite `f64`, if any (`Dense`/`Vsa` payloads only).\"] fn first_non_finite (v : & Value) -> Option < usize > { let scalars : & [f64] = match v . payload () { Payload :: Scalars (s) | Payload :: Hypervector (s) => s , Payload :: Bits (_) | Payload :: Trits (_) => return None , Payload :: Seq (_) | Payload :: Bytes (_) | Payload :: Float (_) => return None , } ; scalars . iter () . position (| x | ! x . is_finite ()) }",
+      "reason": "`let` binding uses an unsupported pattern (only simple `let x = e;` is supported)",
+      "item_name": "first_non_finite"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 270,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" Render `v` as a human-readable string.\"] # [doc = \"\"] # [doc = \" **Guarantee tag: `Exact`** (total, pure, no selection / approximation; C2).\"] # [doc = \" **Fallibility: total** — every `Value` has a human display.\"] # [doc = \" **Effects: none**.\"] # [doc = \" **EXPLAIN: n/a** — no selection or approximation is hidden.\"] # [doc = \"\"] # [doc = \" The output is a projection of a borrowed `&Value`; it never mutates `v` and never changes\"] # [doc = \" its content hash (ADR-003; C4).\"] # [must_use] pub fn display (v : & Value) -> Text { Text (format_value_human (v , false)) }",
+      "reason": "dropped non-doc attribute(s) on fn `display`: # [must_use]",
+      "item_name": "display"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 284,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" Render `v` as a structural debug string (more detailed than `display`).\"] # [doc = \"\"] # [doc = \" **Guarantee tag: `Exact`** (total, pure; C2).\"] # [doc = \" **Fallibility: total**.\"] # [doc = \" **Effects: none**.\"] # [doc = \" **EXPLAIN: n/a**.\"] # [doc = \"\"] # [doc = \" Like `display` but includes representation metadata (repr kind, width/dim, guarantee\"] # [doc = \" strength) so the output is useful for diagnostics. Still a projection, not identity.\"] # [must_use] pub fn debug (v : & Value) -> Text { Text (format_value_human (v , true)) }",
+      "reason": "dropped non-doc attribute(s) on fn `debug`: # [must_use]",
+      "item_name": "debug"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 300,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" Render `v` within `limit` elements, emitting a typed `Truncation` record when content is\"] # [doc = \" elided — **never a silent drop** (C1/G2).\"] # [doc = \"\"] # [doc = \" **Guarantee tag: `Exact`** — the result is faithful to *what it claims to render*. An\"] # [doc = \" `Elided` rendering does not assert completeness; it carries `{omitted, marker}` evidence.\"] # [doc = \" **Fallibility: total** — always returns a `Rendering`, even for `limit = Budget(0)`.\"] # [doc = \" **Effects: `alloc(budget)`** — the output size is capped at `limit.0` elements (C6).\"] # [doc = \" **EXPLAIN: yes** — `Rendering::truncation` is the reified, inspectable artifact of *what*\"] # [doc = \" was elided and *why* (C3).\"] # [must_use] pub fn display_bounded (v : & Value , limit : Budget) -> Rendering { display_bounded_impl (v , limit) }",
+      "reason": "dropped non-doc attribute(s) on fn `display_bounded`: # [must_use]",
+      "item_name": "display_bounded"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 316,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Project `v` to a machine-faithful JSON view (the `to_json` half of the dual projection, G11).\"] # [doc = \"\"] # [doc = \" **Guarantee tag: `Exact`** (when `Ok`) — the machine view is a deterministic function of the\"] # [doc = \" value's canonical form.\"] # [doc = \" **Fallibility: `Err(ToJsonError::NonFinite)`** — a non-finite `f64` has no JSON form and is\"] # [doc = \" refused rather than silently coerced to `null` (C1/G2). Every finite `Value` has a JSON view.\"] # [doc = \" **Effects: none**.\"] # [doc = \" **EXPLAIN: n/a** — no selection or approximation.\"] # [doc = \"\"] # [doc = \" The JSON projection is the identity-preserving wire view: `from_json(to_json(v))` recovers a\"] # [doc = \" `Value` with the **same content hash** as `v` (ADR-003; RFC-0001 §4.6). This is the checked\"] # [doc = \" round-trip invariant (spec §4; RFC-0016 §4.5).\"] # [doc = \"\"] # [doc = \" # Delegation (M-514) — wired\"] # [doc = \" This op delegates the canonical Value→JSON projection (and the non-finite refusal) to\"] # [doc = \" `mycelium-std-io::to_json` — the ratified fmt→io seam (spec §7-Q1; README §5). `fmt` reports\"] # [doc = \" the first offending payload index as its typed `ToJsonError::NonFinite`.\"] pub fn to_json (v : & Value) -> Result < Json , ToJsonError > { Ok (Json (value_to_json (v) ?)) }",
+      "reason": "unsupported expression form `value_to_json (v) ?`",
+      "item_name": "to_json"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 337,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Reconstruct a [`Value`] from its machine JSON view (the `from_json` half).\"] # [doc = \"\"] # [doc = \" **Guarantee tag: `Exact`** — if the input is well-formed, the output is deterministic.\"] # [doc = \" The round-trip property (`from_json(to_json(v))` has the same content hash as `v`) is\"] # [doc = \" the one checked invariant of this module (spec §4; RFC-0001 §4.6 / ADR-003).\"] # [doc = \" **Fallibility: `Err(Malformed | UnknownTag | OutOfDomain)`** — never a best-effort coercion\"] # [doc = \" (C1).\"] # [doc = \" **Effects: none**.\"] # [doc = \" **EXPLAIN: n/a** — round-trip is the checked property, not a heuristic.\"] # [doc = \"\"] # [doc = \" # Errors\"] # [doc = \"\"] # [doc = \" - [`FromJsonError::Malformed`] — the JSON does not match the value wire schema.\"] # [doc = \" - [`FromJsonError::UnknownTag`] — the `repr.kind` field is not `Binary|Ternary|Dense|VSA`.\"] # [doc = \" - [`FromJsonError::OutOfDomain`] — a field value is out of its domain (e.g. `width: 0`).\"] # [doc = \"\"] # [doc = \" # Delegation (M-514) — wired\"] # [doc = \" Delegates the canonical decode (and its located, classified errors) to\"] # [doc = \" `mycelium-std-io::from_json` — the ratified fmt→io seam (spec §7-Q1; README §5).\"] pub fn from_json (j : & Json) -> Result < Value , FromJsonError > { json_to_value (j . inner ()) }",
+      "reason": "method call `.inner(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__inner` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `inner(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "from_json"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 362,
+      "col": 1,
+      "category": "Struct",
+      "rust_construct": "Struct",
+      "snippet": "# [doc = \" One row of the `std.fmt` guarantee matrix (RFC-0016 §4.5; spec §4).\"] # [doc = \"\"] # [doc = \" Encoded as data so tests can assert invariants rather than relying on prose only.\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct MatrixRow { # [doc = \" The exported operation's name.\"] pub op : & 'static str , # [doc = \" The honest guarantee tag on `Exact > Proven > Empirical > Declared`.\"] pub tag : GuaranteeStrength , # [doc = \" Whether the op is fallible (returns `Result`).\"] pub fallible : bool , # [doc = \" Whether this op surfaces an inspectable EXPLAIN artifact.\"] pub explainable : bool , # [doc = \" The declared effects (`\\\"none\\\"` or `\\\"alloc(budget)\\\"`).\"] pub effects : & 'static str , }",
+      "reason": "struct `MatrixRow` uses named fields and references a type not resolvable in-file — emitting it positionally would introduce an unresolved reference that poisons the file's `myc check`; left gapped under the M-1006 resolvability gate (VR-5/G2)",
+      "item_name": "MatrixRow"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 379,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" The `std.fmt` guarantee matrix (spec §4 / RFC-0016 §4.5).\"] # [doc = \"\"] # [doc = \" All five rows are `Exact` — `fmt` has no accuracy/precision semantics (C2). The one\"] # [doc = \" substantive honest claim is the **round-trip invariant** (`from_json(to_json(v))` preserves\"] # [doc = \" content hash), which is checked in the test suite, not merely stated here.\"] pub const GUARANTEE_MATRIX : & [MatrixRow] = & [MatrixRow { op : \"display\" , tag : GuaranteeStrength :: Exact , fallible : false , explainable : false , effects : \"none\" , } , MatrixRow { op : \"debug\" , tag : GuaranteeStrength :: Exact , fallible : false , explainable : false , effects : \"none\" , } , MatrixRow { op : \"to_json\" , tag : GuaranteeStrength :: Exact , fallible : true , explainable : false , effects : \"none\" , } , MatrixRow { op : \"from_json\" , tag : GuaranteeStrength :: Exact , fallible : true , explainable : false , effects : \"none\" , } , MatrixRow { op : \"display_bounded\" , tag : GuaranteeStrength :: Exact , fallible : false , explainable : true , effects : \"alloc(budget)\" , } ,] ;",
+      "reason": "top-level `const GUARANTEE_MATRIX` — co-emit (ORACLE-R1 A4) only covers plain unsigned integer types (`u8`/`u16`/`u32`/`u64`/`u128`/`usize`); other types have no const item production and no faithful zero-arg-fn encoding (gap, never fabricate)",
+      "item_name": "GUARANTEE_MATRIX"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 428,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Assert the structural invariants of the guarantee matrix — called from tests.\"] # [doc = \"\"] # [doc = \" Discharges the RFC-0016 §4.5 obligation: \\\"encoded as data, asserted in tests, never\"] # [doc = \" prose-only.\\\" Panics with a descriptive message on any violation.\"] pub fn assert_matrix_invariants () { assert_eq ! (GUARANTEE_MATRIX . len () , 5 , \"spec §4 lists exactly 5 rows (display/debug/to_json/from_json/display_bounded)\") ; for row in GUARANTEE_MATRIX { assert ! (! row . op . is_empty () , \"every matrix row must have a non-empty op name\") ; assert_eq ! (row . tag , GuaranteeStrength :: Exact , \"op '{}': every fmt row must be Exact (no accuracy semantics; C2 / spec §4)\" , row . op) ; if row . op == \"display_bounded\" { assert ! (row . explainable , \"display_bounded must be EXPLAIN-able (C3)\") ; assert_eq ! (row . effects , \"alloc(budget)\" , \"display_bounded must declare alloc(budget) (C6)\") ; } else { assert ! (! row . explainable , \"op '{}': only display_bounded is EXPLAIN-able\" , row . op) ; assert_eq ! (row . effects , \"none\" , \"op '{}': pure ops must declare 'none' effects (C6)\" , row . op) ; } } let fallible_ops : Vec < & str > = GUARANTEE_MATRIX . iter () . filter (| r | r . fallible) . map (| r | r . op) . collect () ; assert_eq ! (fallible_ops , [\"to_json\" , \"from_json\"] , \"the JSON ops (to_json, from_json) must be the fallible ones (spec §3 / C1)\") ; }",
+      "reason": "function has no return type (implicit `()`) — no unit value is representable in this grammar fragment",
+      "item_name": "assert_matrix_invariants"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 485,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Render a value in human form (used by both `display` and `debug`).\"] fn format_value_human (v : & Value , detailed : bool) -> String { match v . repr () { Repr :: Binary { width } => { let bits = match v . payload () { Payload :: Bits (b) => b . iter () . map (| & b | if b { '1' } else { '0' }) . collect :: < String > () , _ => unreachable ! (\"Binary value must have Bits payload\") , } ; if detailed { format ! (\"Binary<{width}>(0b{bits})\") } else { format ! (\"0b{bits}\") } } Repr :: Ternary { trits } => { let ts = match v . payload () { Payload :: Trits (t) => t . iter () . map (| t | match t { Trit :: Neg => '-' , Trit :: Zero => '0' , Trit :: Pos => '+' , }) . collect :: < String > () , _ => unreachable ! (\"Ternary value must have Trits payload\") , } ; if detailed { format ! (\"Ternary<{trits}>({ts})\") } else { format ! (\"0t{ts}\") } } Repr :: Dense { dim , dtype } => { let xs = match v . payload () { Payload :: Scalars (s) => s . iter () . map (| x | format ! (\"{x}\")) . collect :: < Vec < _ > > () . join (\", \") , _ => unreachable ! (\"Dense value must have Scalars payload\") , } ; if detailed { format ! (\"Dense<{dim},{dtype:?}>([{xs}])\") } else { format ! (\"[{xs}]\") } } Repr :: Vsa { model , dim , .. } => { let xs = match v . payload () { Payload :: Hypervector (h) => h . iter () . map (| x | format ! (\"{x}\")) . collect :: < Vec < _ > > () . join (\", \") , _ => unreachable ! (\"Vsa value must have Hypervector payload\") , } ; if detailed { format ! (\"Vsa<{model},{dim}>([{xs}])\") } else { format ! (\"hv[{xs}]\") } } Repr :: Seq { elem , len } => { let xs = match v . payload () { Payload :: Seq (elems) => elems . iter () . map (| e | format_value_human (e , detailed)) . collect :: < Vec < _ > > () . join (\", \") , _ => unreachable ! (\"Seq value must have Seq payload\") , } ; if detailed { format ! (\"Seq<{},{len}>([{xs}])\" , format_repr_short (elem)) } else { format ! (\"[{xs}]\") } } Repr :: Bytes => { let hex = match v . payload () { Payload :: Bytes (b) => b . iter () . map (| x | format ! (\"{x:02x}\")) . collect :: < String > () , _ => unreachable ! (\"Bytes value must have Bytes payload\") , } ; if detailed { format ! (\"Bytes(0x{hex})\") } else { format ! (\"0x{hex}\") } } Repr :: Float { .. } => { let x = match v . payload () { Payload :: Float (x) => * x , _ => unreachable ! (\"Float value must have Float payload\") , } ; if detailed { format ! (\"Float<F64>({x:?})\") } else { format ! (\"{x:?}\") } } } }",
+      "reason": "method call `.repr(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__repr` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `repr(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "format_value_human"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 594,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" A compact element-type label for a sequence's `Repr` (the head paradigm + width). Used only in\"] # [doc = \" the *detailed* human rendering, so it is intentionally terse.\"] fn format_repr_short (r : & Repr) -> String { match r { Repr :: Binary { width } => format ! (\"Binary<{width}>\") , Repr :: Ternary { trits } => format ! (\"Ternary<{trits}>\") , Repr :: Dense { dim , dtype } => format ! (\"Dense<{dim},{dtype:?}>\") , Repr :: Vsa { model , dim , .. } => format ! (\"Vsa<{model},{dim}>\") , Repr :: Seq { elem , len } => format ! (\"Seq<{},{len}>\" , format_repr_short (elem)) , Repr :: Bytes => \"Bytes\" . to_owned () , Repr :: Float { .. } => \"Float<F64>\" . to_owned () , } }",
+      "reason": "struct-variant pattern `Binary_kw { .. }` names a constructor with no confirmed in-file layout -- resolved only for an emitted, in-file struct (or, once DN-132's SS5.1 variant-aware `StructLayout` population lands, an in-file enum's named-field variant); never a guessed field-index arity (DN-132 SS5.1/OQ-4, VR-5/G2)",
+      "item_name": "format_repr_short"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 609,
+      "col": 1,
+      "category": "MultiStmtBody",
+      "rust_construct": "MultiStmtBody",
+      "snippet": "# [doc = \" Implement `display_bounded` with the never-silent elision discipline (spec §3 / C1/G2).\"] fn display_bounded_impl (v : & Value , limit : Budget) -> Rendering { let Budget (max_elems) = limit ; match v . repr () { Repr :: Binary { .. } => { let bits = match v . payload () { Payload :: Bits (b) => b , _ => unreachable ! (\"Binary value must have Bits payload\") , } ; let total = bits . len () ; let rendered_count = total . min (max_elems) ; let omitted = total - rendered_count ; let rendered : String = bits [.. rendered_count] . iter () . map (| & b | if b { '1' } else { '0' }) . collect () ; if omitted == 0 { Rendering { text : Text (format ! (\"0b{rendered}\")) , truncation : Truncation :: Complete , } } else { let marker = format ! (\"...<{omitted} omitted>\") ; Rendering { text : Text (format ! (\"0b{rendered}{marker}\")) , truncation : Truncation :: Elided { omitted , marker } , } } } Repr :: Ternary { .. } => { let trits = match v . payload () { Payload :: Trits (t) => t , _ => unreachable ! (\"Ternary value must have Trits payload\") , } ; let total = trits . len () ; let rendered_count = total . min (max_elems) ; let omitted = total - rendered_count ; let rendered : String = trits [.. rendered_count] . iter () . map (| t | match t { Trit :: Neg => '-' , Trit :: Zero => '0' , Trit :: Pos => '+' , }) . collect () ; if omitted == 0 { Rendering { text : Text (format ! (\"0t{rendered}\")) , truncation : Truncation :: Complete , } } else { let marker = format ! (\"...<{omitted} omitted>\") ; Rendering { text : Text (format ! (\"0t{rendered}{marker}\")) , truncation : Truncation :: Elided { omitted , marker } , } } } Repr :: Dense { .. } => { let scalars = match v . payload () { Payload :: Scalars (s) => s , _ => unreachable ! (\"Dense value must have Scalars payload\") , } ; let total = scalars . len () ; let rendered_count = total . min (max_elems) ; let omitted = total - rendered_count ; let rendered : Vec < String > = scalars [.. rendered_count] . iter () . map (| x | format ! (\"{x}\")) . collect () ; if omitted == 0 { Rendering { text : Text (format ! (\"[{}]\" , rendered . join (\", \"))) , truncation : Truncation :: Complete , } } else { let marker = format ! (\"...<{omitted} omitted>\") ; let inner = if rendered . is_empty () { marker . clone () } else { format ! (\"{}, {marker}\" , rendered . join (\", \")) } ; Rendering { text : Text (format ! (\"[{inner}]\")) , truncation : Truncation :: Elided { omitted , marker } , } } } Repr :: Vsa { .. } => { let hv = match v . payload () { Payload :: Hypervector (h) => h , _ => unreachable ! (\"Vsa value must have Hypervector payload\") , } ; let total = hv . len () ; let rendered_count = total . min (max_elems) ; let omitted = total - rendered_count ; let rendered : Vec < String > = hv [.. rendered_count] . iter () . map (| x | format ! (\"{x}\")) . collect () ; if omitted == 0 { Rendering { text : Text (format ! (\"hv[{}]\" , rendered . join (\", \"))) , truncation : Truncation :: Complete , } } else { let marker = format ! (\"...<{omitted} omitted>\") ; let inner = if rendered . is_empty () { marker . clone () } else { format ! (\"{}, {marker}\" , rendered . join (\", \")) } ; Rendering { text : Text (format ! (\"hv[{inner}]\")) , truncation : Truncation :: Elided { omitted , marker } , } } } Repr :: Seq { .. } => { let elems = match v . payload () { Payload :: Seq (e) => e , _ => unreachable ! (\"Seq value must have Seq payload\") , } ; let total = elems . len () ; let rendered_count = total . min (max_elems) ; let omitted = total - rendered_count ; let rendered : Vec < String > = elems [.. rendered_count] . iter () . map (| e | format_value_human (e , false)) . collect () ; if omitted == 0 { Rendering { text : Text (format ! (\"[{}]\" , rendered . join (\", \"))) , truncation : Truncation :: Complete , } } else { let marker = format ! (\"...<{omitted} omitted>\") ; let inner = if rendered . is_empty () { marker . clone () } else { format ! (\"{}, {marker}\" , rendered . join (\", \")) } ; Rendering { text : Text (format ! (\"[{inner}]\")) , truncation : Truncation :: Elided { omitted , marker } , } } } Repr :: Bytes => { let bytes = match v . payload () { Payload :: Bytes (b) => b , _ => unreachable ! (\"Bytes value must have Bytes payload\") , } ; let total = bytes . len () ; let rendered_count = total . min (max_elems) ; let omitted = total - rendered_count ; let rendered : String = bytes [.. rendered_count] . iter () . map (| b | format ! (\"{b:02x}\")) . collect () ; if omitted == 0 { Rendering { text : Text (format ! (\"0x{rendered}\")) , truncation : Truncation :: Complete , } } else { let marker = format ! (\"...<{omitted} omitted>\") ; Rendering { text : Text (format ! (\"0x{rendered}{marker}\")) , truncation : Truncation :: Elided { omitted , marker } , } } } Repr :: Float { .. } => { let x = match v . payload () { Payload :: Float (x) => * x , _ => unreachable ! (\"Float value must have Float payload\") , } ; Rendering { text : Text (format ! (\"{x:?}\")) , truncation : Truncation :: Complete , } } } }",
+      "reason": "`let` binding uses an unsupported pattern (only simple `let x = e;` is supported)",
+      "item_name": "display_bounded_impl"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 831,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Project a [`Value`] to a `serde_json::Value` for `fmt`'s display wrapper, delegating the\"] # [doc = \" canonical projection to [`mycelium_std_io::to_json`].\"] # [doc = \"\"] # [doc = \" Refuses a non-finite `f64` with `Err(ToJsonError::NonFinite { index })` — `fmt` reports the\"] # [doc = \" first offending payload index for an ergonomic typed error; `std.io` independently refuses the\"] # [doc = \" same domain (never a silent `null`), so the seam is consistent (C1/G2).\"] fn value_to_json (v : & Value) -> Result < serde_json :: Value , ToJsonError > { if let Some (index) = first_non_finite (v) { return Err (ToJsonError :: NonFinite { index }) ; } let text = mycelium_std_io :: to_json (v) . expect (\"io::to_json is total over finite Values (non-finite excluded above)\") ; Ok (serde_json :: from_str (& text) . expect (\"io::to_json emits valid JSON, so the re-parse is total\") ,) }",
+      "reason": "qualified type path `serde_json :: Value` — collapsing to its last segment would risk colliding with an unrelated same-named local type (e.g. `std::cmp::Ordering` vs a local `Ordering`); left an explicit gap rather than guessed (VR-5)",
+      "item_name": "value_to_json"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 852,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Reconstruct a [`Value`] from `fmt`'s display JSON wrapper, delegating the canonical decode\"] # [doc = \" (and its located, classified errors) to [`mycelium_std_io::from_json`].\"] # [doc = \"\"] # [doc = \" Never-silent (C1): every failure is an explicit [`FromJsonError`] mapped from `std.io`'s\"] # [doc = \" located [`mycelium_std_io::SerError`]; no partially-filled `Value` is ever returned.\"] fn json_to_value (j : & serde_json :: Value) -> Result < Value , FromJsonError > { if let Some (kind) = j . get (\"repr\") . and_then (| r | r . get (\"kind\")) . and_then (| k | k . as_str ()) { match kind { \"Binary\" | \"Ternary\" | \"Dense\" | \"VSA\" => { } other => return Err (FromJsonError :: UnknownTag (other . to_owned ())) , } } let text = serde_json :: to_string (j) . expect (\"a serde_json::Value always re-serializes to text\") ; mycelium_std_io :: from_json (& text) . map_err (from_ser_error) }",
+      "reason": "qualified type path `serde_json :: Value` — collapsing to its last segment would risk colliding with an unrelated same-named local type (e.g. `std::cmp::Ordering` vs a local `Ordering`); left an explicit gap rather than guessed (VR-5)",
+      "item_name": "json_to_value"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 880,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Map `std.io`'s located [`mycelium_std_io::SerError`] onto `fmt`'s display [`FromJsonError`],\"] # [doc = \" preserving the never-silent error class (C1). The structured locus (byte offset / field path)\"] # [doc = \" is folded into the human-readable description `fmt` carries.\"] # [doc = \"\"] # [doc = \" Classification note: `std.io`'s `is_domain_error` heuristic catches `\\\"missing field payload\\\"`\"] # [doc = \" as `OutOfDomain` (because \\\"payload\\\" is in its domain-keyword list). For `fmt`, a missing\"] # [doc = \" required field is a structural/grammar failure (`Malformed`), not a value-model invariant\"] # [doc = \" violation (`OutOfDomain`). We reclassify accordingly.\"] fn from_ser_error (e : mycelium_std_io :: SerError) -> FromJsonError { use mycelium_std_io :: SerError ; match & e { SerError :: UnknownTag { tag , .. } => FromJsonError :: UnknownTag (tag . clone ()) , SerError :: OutOfDomain { why , .. } => { if why . contains (\"missing field\") { FromJsonError :: Malformed (e . to_string ()) } else { FromJsonError :: OutOfDomain (why . clone ()) } } SerError :: Truncated { .. } | SerError :: Malformed { .. } | SerError :: BudgetExceeded { .. } => FromJsonError :: Malformed (e . to_string ()) , } }",
+      "reason": "qualified type path `mycelium_std_io :: SerError` — collapsing to its last segment would risk colliding with an unrelated same-named local type (e.g. `std::cmp::Ordering` vs a local `Ordering`); left an explicit gap rather than guessed (VR-5)",
+      "item_name": "from_ser_error"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "line": 914,
+      "col": 1,
+      "category": "TestItem",
+      "rust_construct": "TestItem",
+      "snippet": "# [cfg (test)] mod tests ;",
+      "reason": "#[cfg(test)] item — out of scope for this PoC's transpilation surface (excluded from the expressible-fraction denominator, but recorded, never silently skipped)",
+      "item_name": "tests"
+    }
+  ],
+  "category_counts": {
+    "DeriveAttr": 7,
+    "DeriveSatisfied": 10,
+    "Impl": 4,
+    "Import": 3,
+    "InnerAttr": 1,
+    "MacroInvocation": 2,
+    "MultiStmtBody": 2,
+    "NamedFieldDrop": 3,
+    "Other": 9,
+    "Struct": 2,
+    "TestItem": 1
+  }
+}

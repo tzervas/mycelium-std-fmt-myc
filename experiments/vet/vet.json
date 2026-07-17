@@ -1,0 +1,35 @@
+{
+  "records": [
+    {
+      "myc_file": "/tmp/myc-decompose/work/mycelium-std-fmt-myc/experiments/vet/lib.myc",
+      "source_file": "/root/git/isolated/mycelium/crates/mycelium-std-fmt/src/lib.rs",
+      "class": "CheckError",
+      "exit_code": 3,
+      "diagnostic": "check-error: check error in `debug`: unknown type `Value`",
+      "non_test_items": 32,
+      "emitted_items": 10
+    }
+  ],
+  "total_non_test_items": 32,
+  "total_emitted_items": 10,
+  "total_checked_clean_items": 0,
+  "class_counts": {
+    "CheckError": 1
+  },
+  "phylum": {
+    "ran": true,
+    "ok": false,
+    "nodules": [
+      {
+        "nodule": "std.fmt",
+        "file": "lib.myc",
+        "class": "CheckError",
+        "site": "debug",
+        "on": null,
+        "message": "unknown type `Value`"
+      }
+    ],
+    "diagnostic": "unknown type `Value`"
+  },
+  "total_checked_clean_items_phylum": 0
+}

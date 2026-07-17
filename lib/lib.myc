@@ -1,0 +1,231 @@
+// nodule: std.fmt
+// `std.fmt` — Ring-2 dual human/machine projection over one canonical form (M-533).
+//
+// # Summary
+//
+// `std.fmt` renders a [`Value`] into two views of **one canonical form**: a **human**
+// projection (`display`/`debug`) and a **machine** projection (`to_json`/`from_json`), exactly
+// as RFC-0013 §4.3 renders one diagnostic as "two renderers of one truth" (G11). A bounded
+// display (`display_bounded`) uses a [`Budget`] limit and returns a [`Rendering`] whose
+// [`Truncation`] record says what was elided — never a silent drop (C1/G2).
+//
+// # Honesty crux (spec §1 / §4.1)
+//
+// Two structural honesty facts:
+//
+// 1. **Display is a projection, not identity.** Formatting a borrowed `&Value` is a pure
+//    function that never mutates the value and never changes its content hash (ADR-003; C4).
+//    The human and machine views are two projections of *one* content-addressed canonical
+//    form; neither is "new truth".
+//
+// 2. **A truncated rendering says so.** `Truncation::Elided { omitted, marker }` is the
+//    never-silent guard made type-level: a bounded display that drops data *cannot* be
+//    constructed without the `omitted`/`marker` fields, so a silent truncation is
+//    unrepresentable rather than merely discouraged (C1/G2).
+//
+// # Guarantee matrix (RFC-0016 §4.5)
+//
+// Encoded as data in [`GUARANTEE_MATRIX`] and asserted in tests — never prose-only.
+//
+// # Contract conformance (RFC-0016 §4.1 C1–C6)
+//
+// - **C1 never-silent (G2):** `from_json` returns `Result` with explicit `Malformed` /
+//   `UnknownTag` / `OutOfDomain` variants; `display_bounded` returns `Truncation::Elided`
+//   (never a `Complete`-shaped struct when data was dropped).
+// - **C2 honest per-op tag (VR-5):** every op is `Exact` — `fmt` has no accuracy/precision
+//   semantics; the round-trip invariant is the one checked property, not a numeric bound.
+// - **C3 no black boxes / EXPLAIN (SC-3/G11):** `display_bounded` reifies *what* was elided
+//   in the inspectable [`Truncation`] record; other ops neither select, convert, nor
+//   approximate.
+// - **C4 content-addressed, value-semantic (ADR-003):** all ops are pure functions of a
+//   borrowed `&Value`; none mutates the value or its content hash.
+// - **C5 above the kernel (KC-3):** consumes `mycelium-core`; no `unsafe`, no new trusted
+//   code.
+// - **C6 declared bounded effects (RFC-0014):** pure ops declare `none`; `display_bounded`
+//   declares `alloc(budget)` — the bound is on the signature.
+//
+// # JSON delegation to `mycelium-std-io` (M-514) — wired (ratified 2026-06-19)
+//
+// `fmt.to_json`/`from_json` **delegate** to the **one canonical JSON projection** owned by
+// `io`/`serialize` (M-514) — one canonical JSON, two entry points (spec §7-Q1; `README.md §5`).
+// The maintainer ratified the converged delegation (2026-06-19), so the codec, the non-finite
+// refusal (`NaN`/`±∞` refused, never a silent `null`), and the never-silent decode-error
+// classification all live **once**, in `std.io`; this crate keeps only its thin display facade
+// (`Json`/`ToJsonError`/`FromJsonError`) over them. The round-trip invariant
+// (`from_json(to_json(v)).content_hash() == v.content_hash()`) is established once in `std.io`
+// and re-checked here.
+//
+// **Tag-framing note (honesty, VR-5 — RESOLVED 2026-06-19; DN-16, maintainer-ratified).** The two
+// `from_json` tags are **deliberately scope-distinct**, not a contradiction — each names a different
+// property of the shared op, and both are kept. `std.fmt` `from_json` = **`Exact`** claims *decode
+// determinism* (the same JSON text always decodes to the same `Value`, with no accuracy semantics —
+// an `Exact` structural property of the parse, RFC-0016 C2). `std.io` `from_json` = **`Empirical`**
+// claims *round-trip fidelity* (`from_json(to_json(v)) ≡ v`), established by a proptest corpus, not a
+// theorem (VR-5: no checked theorem ⇒ not `Proven`). Neither over-claims (`Proven`); the tags answer
+// different questions about the same call and are intentionally retained as-is. (Cross-ref: `std.io`
+// `guarantee_matrix.rs` `from_json` row.)
+//
+// Design spec: `docs/spec/stdlib/fmt.md`; contract: RFC-0016 §4.1 (C1–C6);
+// guarantee matrix: spec §4.
+//
+// ## Ambient Representation (RFC-0012 §8-Q3)
+//
+// This crate's public API participates in the RFC-0012 ambient-representation contract:
+// the representation choice (binary/ternary/dense/VSA) is implicit at the call site but
+// always reified, queryable, and EXPLAIN-able — never a black box (C3/SC-3).
+// [Declared per RFC-0012; direction accepted in DN-07 §8-Q3; per-ring pass scheduled as M-540.]
+//
+// **For this crate (Ring 2, Tier B):** Format ops render to text; the source representation
+// is always named in the format receipt — `to_json` serializes the `Repr` tag as part of the
+// canonical JSON form (the `Value`'s `Repr` is an observable field, never omitted). A rendered
+// `Value` includes its `Repr`; an `EXPLAIN`-able format rendering is a first-class goal (G11).
+//
+// # Stability (DN-66 freeze, 2026-07-01)
+//
+// This crate's public API, as documented in `docs/spec/stdlib/fmt.md` (spec status:
+// Accepted (2026-06-20)) and asserted by its guarantee-matrix table, is the **frozen baseline** per
+// [DN-66](../../../docs/notes/DN-66-Stdlib-Stable-API-Freeze-And-Rust-Crate-Retirement-Status.md).
+// A future breaking change here needs a spec amendment + changelog entry, not a silent edit (G2).
+//
+// **Unfrozen for the gap-closure window (ADR-045, Accepted 2026-07-10):** this DN-66 freeze is
+// lifted per [ADR-045](../../../docs/adr/ADR-045-Kernel-And-Lexicon-Unfreeze-For-Early-Gap-Closure.md)
+// for a bounded window; a breaking change here still needs a spec amendment + changelog entry
+// (G2), not a silent edit — the window closes per the ADR-045 §2.4 re-freeze conditions, bound by
+// the DN-99 residual worklist.
+// It remains the RFC-0031 D6 differential-oracle reference; the same-named `lib/std/fmt.myc` prototype is a narrower, structurally distinct surface (DN-66 S3.1) — the D6 retirement trigger has not fired, so no item here is `#[deprecated]`.
+// @summary: best-effort transpilation via mycelium-transpile (M-873). Declared,
+// unvalidated — no Mycelium parser/typechecker confirms this output; see the
+// accompanying .gap.json for every construct this pass could not express.
+nodule std.fmt;
+
+// A rendered text string (the output of a human projection).
+//
+// A thin `String` wrapper so the type surface makes the projection explicit.
+type Text = Text(Bytes);
+
+impl Show[Text] for Text {
+  fn render(x: Text) => Bytes =
+    match x { Text(p0) => bytes_concat(bytes_concat("Text(", render(p0)), ")") };
+};
+
+fn eq_Text(a: Text, b: Text) => Binary{1} =
+    match a { Text(p0) => match b { Text(q0) => bytes_eq(p0, q0) } };
+
+impl Text {
+  // Borrow the inner string.
+  fn as_str(self: Text) => Bytes = (match self { Text(p0) => p0 });
+};
+
+// A budget for `display_bounded`: the maximum number of *elements* (bits, trits, scalars,
+// or hypervector components) to render before eliding.
+//
+// The budget is specified in element units so the contract is paradigm-uniform. A budget of
+// 0 is allowed and produces an immediately-elided rendering (all content elided).
+//
+// Declared as the `alloc(budget)` effect in the C6 guarantee for `display_bounded` (spec §4).
+type Budget = Budget(Binary{64});
+
+impl Show[Budget] for Budget {
+  fn render(x: Budget) => Bytes =
+    match x { Budget(p0) => bytes_concat(bytes_concat("Budget(", render(p0)), ")") };
+};
+
+fn eq_Budget(a: Budget, b: Budget) => Binary{1} =
+    match a { Budget(p0) => match b { Budget(q0) => eq(p0, q0) } };
+
+impl Ord3[Budget] for Budget {
+  fn cmp(a: Budget, b: Budget) => Binary{8} =
+    match a { Budget(p0) => match b { Budget(q0) => cmp(p0, q0) } };
+};
+
+// Whether a [`Rendering`] is complete or whether some content was elided.
+//
+// `Elided` is the never-silent guard made type-level (spec §3; C1/G2): a bounded display that
+// drops data **cannot** be constructed without the `omitted`/`marker` fields, so a silent
+// truncation is unrepresentable rather than merely discouraged. This is the EXPLAIN-able
+// artifact for `display_bounded` (C3).
+type Truncation = Complete | Elided(Binary{64}, Bytes);
+
+impl Show[Truncation] for Truncation {
+  fn render(x: Truncation) => Bytes =
+    match x { Complete => "Complete", Elided(p0, p1) => bytes_concat(bytes_concat(bytes_concat(bytes_concat("Elided(", render(p0)), ", "), render(p1)), ")") };
+};
+
+fn eq_Truncation(a: Truncation, b: Truncation) => Binary{1} =
+  match a { Complete => match b { Complete => 0b1, _ => 0b0 }, Elided(p0, p1) => match b { Elided(q0, q1) => and(eq(p0, q0), bytes_eq(p1, q1)), _ => 0b0 } };
+
+// The result of `display_bounded`: a rendered text paired with its truncation record.
+//
+// When `truncation` is `Truncation::Elided`, the `text` field already contains the `marker`
+// verbatim so the output is self-describing without having to inspect the `Truncation` variant.
+// The `Truncation` variant is still the machine-readable EXPLAIN artifact (C3).
+type Rendering = Rendering(Text, Truncation);
+
+impl Show[Rendering] for Rendering {
+  fn render(x: Rendering) => Bytes =
+    match x { Rendering(p0, p1) => bytes_concat(bytes_concat(bytes_concat(bytes_concat("Rendering(", render(p0)), ", "), render(p1)), ")") };
+};
+
+fn eq_Rendering(a: Rendering, b: Rendering) => Binary{1} =
+    match a { Rendering(p0, p1) => match b { Rendering(q0, q1) => and(eq_Text(p0, q0), eq_Truncation(p1, q1)) } };
+
+// Errors the `from_json` machine projection can raise.
+//
+// Never-silent (C1): a malformed, unknown-tag, or out-of-domain input is an explicit `Err`,
+// never a coercion or a sentinel.
+type FromJsonError = Malformed(Bytes) | UnknownTag(Bytes) | OutOfDomain(Bytes);
+
+impl Show[FromJsonError] for FromJsonError {
+  fn render(x: FromJsonError) => Bytes =
+    match x { Malformed(p0) => bytes_concat(bytes_concat("Malformed(", render(p0)), ")"), UnknownTag(p0) => bytes_concat(bytes_concat("UnknownTag(", render(p0)), ")"), OutOfDomain(p0) => bytes_concat(bytes_concat("OutOfDomain(", render(p0)), ")") };
+};
+
+fn eq_FromJsonError(a: FromJsonError, b: FromJsonError) => Binary{1} =
+  match a { Malformed(p0) => match b { Malformed(q0) => bytes_eq(p0, q0), _ => 0b0 }, UnknownTag(p0) => match b { UnknownTag(q0) => bytes_eq(p0, q0), _ => 0b0 }, OutOfDomain(p0) => match b { OutOfDomain(q0) => bytes_eq(p0, q0), _ => 0b0 } };
+
+// Error the `to_json` machine projection can raise.
+//
+// Never-silent (C1): a `Value` that has no faithful JSON form is an explicit `Err`, never a
+// lossy coercion.
+type ToJsonError = NonFinite(Binary{64});
+
+impl Show[ToJsonError] for ToJsonError {
+  fn render(x: ToJsonError) => Bytes =
+    match x { NonFinite(p0) => bytes_concat(bytes_concat("NonFinite(", render(p0)), ")") };
+};
+
+fn eq_ToJsonError(a: ToJsonError, b: ToJsonError) => Binary{1} =
+  match a { NonFinite(p0) => match b { NonFinite(q0) => eq(p0, q0) } };
+
+// Render `v` as a human-readable string.
+//
+// **Guarantee tag: `Exact`** (total, pure, no selection / approximation; C2).
+// **Fallibility: total** — every `Value` has a human display.
+// **Effects: none**.
+// **EXPLAIN: n/a** — no selection or approximation is hidden.
+//
+// The output is a projection of a borrowed `&Value`; it never mutates `v` and never changes
+// its content hash (ADR-003; C4).
+fn display(v: Value) => Text = Text(format_value_human(v, False));
+
+// Render `v` as a structural debug string (more detailed than `display`).
+//
+// **Guarantee tag: `Exact`** (total, pure; C2).
+// **Fallibility: total**.
+// **Effects: none**.
+// **EXPLAIN: n/a**.
+//
+// Like `display` but includes representation metadata (repr kind, width/dim, guarantee
+// strength) so the output is useful for diagnostics. Still a projection, not identity.
+fn debug(v: Value) => Text = Text(format_value_human(v, True));
+
+// Render `v` within `limit` elements, emitting a typed `Truncation` record when content is
+// elided — **never a silent drop** (C1/G2).
+//
+// **Guarantee tag: `Exact`** — the result is faithful to *what it claims to render*. An
+// `Elided` rendering does not assert completeness; it carries `{omitted, marker}` evidence.
+// **Fallibility: total** — always returns a `Rendering`, even for `limit = Budget(0)`.
+// **Effects: `alloc(budget)`** — the output size is capped at `limit.0` elements (C6).
+// **EXPLAIN: yes** — `Rendering::truncation` is the reified, inspectable artifact of *what*
+// was elided and *why* (C3).
+fn display_bounded(v: Value, limit: Budget) => Rendering = display_bounded_impl(v, limit);
